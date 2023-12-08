@@ -7,20 +7,16 @@ services:
     image: vitarose/guess_that_pokemon
     environment:
       - MONGODB_URI=mongodb://mongo:27017/
-      - MONGODB_DATABASE=database1
+      - MONGODB_DATABASE=PokemonDB
+      - MONGODB_COLLECTION=PokemonCollection
     ports:
       - "5000:5000"
     depends_on:
       - mongodb
-      - "machine_learning_client"
 
   mongodb:
     build: ./mongodb
     container_name: mongodb
-    environment:
-      - MONGODB_URI=
-      - MONGODB_DATABASE=
-    image: vitarose/mongodb
     ports:
       - "27017:27017"
     volumes:
