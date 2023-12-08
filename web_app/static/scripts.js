@@ -10,17 +10,20 @@ let compareTable = (function () {
         if (names && names.length > 0) {
             $.each(names, function (index, name) {
                 var s = item[name + ''];
-                if(correctness[index]){
-                    c = 'no-correctness'
+                if(correctness[index] || correctness[index] === 0){
+                    var c = 'no-correctness'
                     switch (correctness[index]){
                         case 0.5:
                             c = 'partial-right'
+                            break;
                         case 0:
                             c  = 'wrong'
+                            break;
                         case 1:
                             c = 'right'
+                            break;
                     }
-                    row += '<td id=' + correctness[index] + '>' + s + '</td>';
+                    row += '<td id=' + c + '>' + c + ': ' + s + '</td>';
                 } else {
                     row += '<td>' + s + '</td>';
                 }
@@ -93,7 +96,7 @@ let compareTable = (function () {
 // TODO: Look up (temp)
 // TODO: select random pokemon
 // TODO: use input when guessing
-// TODO: compare selected and guess
+// TODO: compare selected and guess (Flask? or JS?)
 $(document).ready(function(e) {
 
     var data1 = { 'Pokemon': 'Bulbasaur', 'Type I': 'Grass', 'Type II': 'Poison', 'Tier': 'NU', 'Egg Group I': 'Monster', 'Egg Group II': 'Grass', 'generation': '1', 'Evolve': '' };
