@@ -149,8 +149,24 @@ let pokedex = (function (){
         db:db
     }
 }());
-// TODO: use input when guessing
 // TODO: compare selected and guess (Flask? or JS?)
+function comparePokemon(guessPokemon, targetPokemon, fields){
+    var correctness = []
+    for(var i = 0; i < fields.length; i++){
+        var correct = guessPokemon[fields[i]].localeCompare(targetPokemon[fields[i]])
+        correct = correct === 0 ? 1 : 0;
+        correctness.push(correct);
+    }
+    return correctness;
+}
+
+function checkWin(correctness){
+    var win = true;
+    for(var i = 0; i < correctness.length; i++){
+        if(correctness[i] !== 1) win = false;
+    }
+    return win;
+}
 $(document).ready(function(e) {
 
     var fields = ['Pokemon', 'Type I', 'Type II', 'Tier', 'Egg Group I', 'Egg Group II', 'generation', 'Evolve'];
@@ -169,6 +185,16 @@ $(document).ready(function(e) {
         if(!targetPokemon) targetPokemon = dex.pokemonToGuess();
         var guessPokemon = $('#guessPokemon').val();
         var data = dex.searchPokedex(guessPokemon);
-        comparisons.addGuess(data,correct1);
+        if(data){
+            var correctness = comparePokemon(data, targetPokemon, fields)
+            $('#guessPokemon').val('');
+            comparisons.addGuess(data,correctness);
+            if(checkWin(correctness)){
+                $('#feedback-text').text("You guessed it!");
+            }
+        }
+        else {
+            $('#feedback-text').text("Invalid Pokemon");
+        }
     });
 });
