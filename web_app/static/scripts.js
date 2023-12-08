@@ -110,7 +110,7 @@ let pokedex = (function (){
                 entry[headers[j]] = curr[j];
             }
 
-            db[curr[0]] = entry;
+            db[curr[2]] = entry;
         }
         return db;
     }
@@ -119,12 +119,13 @@ let pokedex = (function (){
         if(db){
             return db[name];
         }
-        return null;
+        return {'Pokemon':'bad'};
     }
 
     function _randomPokemon(){
         if(db){
             var pokemon = Object.keys(db);
+            console.log(pokemon);
             return db[pokemon[Math.floor(pokemon.length * Math.random())]];
         }
         return null;
@@ -139,7 +140,7 @@ let pokedex = (function (){
         },
 
         searchPokedex: function (name){
-            _findPokemon(name)
+            return _findPokemon(name)
         },
 
         pokemonToGuess: function (){
@@ -166,7 +167,8 @@ $(document).ready(function(e) {
 
     $('#btn-guess').click(function(e) {
         if(!targetPokemon) targetPokemon = dex.pokemonToGuess();
-        var data = targetPokemon ? targetPokemon : data1
+        var guessPokemon = $('#guessPokemon').val();
+        var data = dex.searchPokedex(guessPokemon);
         comparisons.addGuess(data,correct1);
     });
 });
