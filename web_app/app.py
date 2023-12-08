@@ -5,6 +5,14 @@ import os
 import sys
 import requests
 
+current_script_path = os.path.abspath(__file__)
+
+project_path = os.path.dirname(os.path.dirname(current_script_path))
+
+sys.path.append(project_path)
+
+from db import db
+
 from flask import Flask, render_template, request, jsonify
 
 current_script_path = os.path.abspath(__file__)
@@ -22,30 +30,41 @@ load_dotenv()
 
 # # Connect to MongoDB
 # client = MongoClient(MONGO_URI)
-# db = client["database1"]
 
 app = Flask(__name__)
+
+print(db)
+
+pokemonCollection = db["pokemon"]
 
 
 @app.route("/")  # Route for /
 def index():
     """Returns index page."""
 
-    return render_template("index.html")
+    return render_template("game.html")
 
 @app.route("/compare", methods=["POST"])  # Route for /compare
 def compare():
     """Returns comparing page."""
 
-    return jsonify({"msg": "temp"})
+    return render_template("compare.html")
     
-    # return render_template("index.html")
-
 @app.route("/scoreboard")
 def scoreboard():
     """Returns scoreboard page."""
 
-    return jsonify({"msg": "temp"})
+    return render_template("scoreboard.html")
+
+@app.route("/dictionary")
+def dictionary():
+    """Returns dictionary page."""
+
+    cursor = pokemonCollection.find({})
+    pokemon_names = [pokemon["Pokemon"] for pokemon in cursor]
+    return render_template('dictionary.html', names=pokemon_names)
+
+
 
 
 if __name__ == "__main__":
