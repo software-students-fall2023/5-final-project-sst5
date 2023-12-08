@@ -23,7 +23,7 @@ let compareTable = (function () {
                             c = 'right'
                             break;
                     }
-                    row += '<td id=' + c + '>' + c + ': ' + s + '</td>';
+                    row += '<td id=' + c + '>' + c + ':' + '<br>' + s + '</td>';
                 } else {
                     row += '<td>' + s + '</td>';
                 }
@@ -61,7 +61,7 @@ let compareTable = (function () {
 
     function _removeNoItemsInfo() {
         var c = _table.children('tbody').children('tr');
-        if (c.length == 1 && c.hasClass('no-items')) _table.children('tbody').empty();
+        if (c.length === 1 && c.hasClass('no-items')) _table.children('tbody').empty();
     }
 
     return {
@@ -92,23 +92,81 @@ let compareTable = (function () {
     };
 }());
 
-// TODO: Parse CSV (temp)
-// TODO: Look up (temp)
-// TODO: select random pokemon
+/** Parses the pokedex.csv and allows for look up in the entries */
+let pokedex = (function (){
+    // TODO: Replace with Flask integration for this stuff.
+    var db;
+    function _parseCSVIntoPokedex(csv) {
+        db = {};
+        var rows = csv.split("\r\n");
+        var headers = rows[0].split(",");
+        console.log(headers);
+
+        for(var i = 1; i < rows.length; i++){
+            var entry = {};
+            var curr = rows[i].split(",");
+
+            for(var j = 0; j < curr.length; j++){
+                entry[headers[j]] = curr[j];
+            }
+
+            db[curr[0]] = entry;
+        }
+        return db;
+    }
+
+    function _findPokemon(name){
+        if(db){
+            return db[name];
+        }
+        return null;
+    }
+
+    function _randomPokemon(){
+        if(db){
+            var pokemon = Object.keys(db);
+            return db[pokemon[Math.floor(pokemon.length * Math.random())]];
+        }
+        return null;
+    }
+
+    return{
+        createPokedex: function (){
+            fetch("../pokemon_csv/pokedex.csv").then((res) => res.text()).then((res) => {
+                db = _parseCSVIntoPokedex(res);
+            }).catch((e) => console.error(e));
+            return this;
+        },
+
+        searchPokedex: function (name){
+            _findPokemon(name)
+        },
+
+        pokemonToGuess: function (){
+            return _randomPokemon();
+        },
+        db:db
+    }
+}());
 // TODO: use input when guessing
 // TODO: compare selected and guess (Flask? or JS?)
 $(document).ready(function(e) {
 
+    var fields = ['Pokemon', 'Type I', 'Type II', 'Tier', 'Egg Group I', 'Egg Group II', 'generation', 'Evolve'];
     var data1 = { 'Pokemon': 'Bulbasaur', 'Type I': 'Grass', 'Type II': 'Poison', 'Tier': 'NU', 'Egg Group I': 'Monster', 'Egg Group II': 'Grass', 'generation': '1', 'Evolve': '' };
     var correct1 = [1, 0.5, 0, 1, 1, 1, 0, 0.5, 1]
 
     var comparisons = compareTable.config('pokemon-compare-table',
-        ['Pokemon', 'Type I', 'Type II', 'Tier', 'Egg Group I', 'Egg Group II', 'generation', 'Evolve'],
+        fields,
         ['Pokemon', 'Type I', 'Type II', 'Tier', 'Egg Group I', 'Egg Group II', 'Generation', 'Is Evolution'], //set to null for field names instead of custom header names
         'Guess a Pokemon First!');
 
+    var dex = pokedex.createPokedex();
+    var targetPokemon = dex.pokemonToGuess();
 
     $('#btn-guess').click(function(e) {
-        comparisons.addGuess(data1,correct1);
+        if(!targetPokemon) targetPokemon = dex.pokemonToGuess();
+        var data = targetPokemon ? targetPokemon : data1
+        comparisons.addGuess(data,correct1);
     });
 });
