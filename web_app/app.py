@@ -103,7 +103,7 @@ def scoreboard():
     """Returns scoreboard page."""
 
     scoreboard_data = pokemonCollection.find(
-        {"Best guesser": {"$exists": True}, "lowest guesses": {"$exists": True}},
+        {"Best guesser": {"$exists": True}, "Lowest guesses": {"$exists": True}},
         {"_id": 0, "Pokemon": 1, "Best guesser": 1, "lowest guesses": 1}
     )
     scoreboard_list = list(scoreboard_data)
