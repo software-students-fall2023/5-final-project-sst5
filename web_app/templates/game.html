@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Guess that Pokemon!</title>
@@ -21,28 +20,37 @@
     <script
             src="../static/scripts.js"
             ></script>
+    <script src = "../static/game.js"></script>
 </head>
 
-<!-- TODO: Remove above in the future -->
-
-{% extends 'index.html' %} {% block container %}
-    <div class = "game">
-        <div class = "pokemon-guess">
-            <input type="text" id="guessPokemon" name="guessPokemon" value="" placeholder="Type the name of a Pokemon..." />
-            </br>
-            <!-- TODO: Modify for Flask -->
-            <input type="submit" id="btn-guess" value="GUESS">
+  <body>
+    <div id="answer" data-answer="{{ answer }}"></div>
+    <div class="game">
+      <form id="guessForm">
+        <div class="pokemon-guess">
+          <input
+            type="text"
+            id="guessPokemon"
+            name="guessPokemon"
+            value=""
+            placeholder="Type the name of a Pokemon..."
+          />
+          <br />
+          <input type="submit" value="GUESS" />
         </div>
+      </form>
 
-        <div class="feedback">
-            <h3 id="feedback-text"></h3>
-        </div>
+      <div class="feedback">
+        <h3 id="feedback-text"></h3>
+      </div>
 
-        <!-- Displays data and updates in realtime to show wrong guesses the player made and what was right or wrong about each guess -->
-        <div class = "pokemon-compare">
-            <table id="pokemon-compare-table">
-                <tr><td>...</td></tr>
-            </table>
-        </div>
+      <div class="pokemon-compare">
+        <table id="pokemon-compare-table">
+          <tr>
+            <td>...</td>
+          </tr>
+        </table>
+      </div>
     </div>
-{% endblock %}
+  </body>
+</html>
