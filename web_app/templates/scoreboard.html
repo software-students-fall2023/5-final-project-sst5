@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard!</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='pokemon_table.css') }}">
+</head>
+<body>
+    <h1>Scoreboard</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Pokémon</th>
+                <th>Best Guesser</th>
+                <th>Lowest Guesses</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entry in scoreboard %}
+                <tr>
+                    <td>{{ entry.Pokemon }}</td>
+                    <td>{{ entry['Best guesser'] }}</td>
+                    <td>{{ entry['lowest guesses'] }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

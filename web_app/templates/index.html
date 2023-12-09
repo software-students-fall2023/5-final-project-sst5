@@ -11,6 +11,15 @@
         <h1 id="main-title">Guess That Pokémon!</h1>
     </header>
     <main>
+        {% if message %}
+            <div class="success-message">{{ message }}</div>
+        {% endif %}
+        <div class="username-container">
+            <form action="/set_username" method="post">
+                <input type="text" name="username" placeholder="Enter Leaderboard Name">
+                <button type="submit">Save Name</button>
+            </form>
+        </div>
         <div class="button-container">
             <button class="play-game" onclick="window.location.href='/game'">Play the Game!</button>
             <button class="leaderboard" onclick="window.location.href='/scoreboard'">Leaderboard</button>
