@@ -42,6 +42,12 @@ pokemonCollection = db["pokemon"]
 def index():
     """Returns index page."""
 
+    return render_template("index.html")
+
+@app.route("/game")  # Route for /game
+def game():
+    """Returns index page."""
+
     return render_template("game.html")
 
 @app.route("/compare", methods=["POST"])  # Route for /compare
