@@ -2,25 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Guess that Pokemon!</title>
-
-    <link
-            rel="stylesheet"
-            href="{{ url_for('static', filename='styles.css') }}"/>
-    <script
-            src="https://code.jquery.com/jquery-3.7.1.slim.js"
-            integrity="sha256-UgvvN8vBkgO0luPSUl2s8TIlOSYRoGFAX4jlCIm9Adc="
-            crossorigin="anonymous"></script>
-    <script
-            src="{{ url_for('static', filename='scripts.js') }}"
-            async></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess That Pokemon!</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <header>
-        <span id="logo-text">Guess That Pokémon!</span>
-
+        <h1 id="main-title">Guess That Pokémon!</h1>
     </header>
     <main>
-        {% block container %} {% endblock %}
+        <div class="button-container">
+            <button class="play-game" onclick="window.location.href='/game'">Play the Game!</button>
+            <button class="leaderboard" onclick="window.location.href='/scoreboard'">Leaderboard</button>
+            <button class="list-pokemon" onclick="window.location.href='/dictionary'">List of Pokémon</button>
+        </div>
     </main>
 </body>
+</html>
