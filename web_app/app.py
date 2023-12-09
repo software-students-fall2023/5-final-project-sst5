@@ -71,6 +71,8 @@ def compare():
 
     poke_find_data = pokemonCollection.find_one({"Pokemon": pokemonGuess})
 
+    print(answer_data)
+
     if(poke_find_data is None):
         return jsonify({"msg": "No pokemon with this name was found, please try again"})
     else:
@@ -80,7 +82,11 @@ def compare():
         egOne = True if poke_find_data["Egg Group I"] == answer_data["Egg Group I"] else False
         egTwo = True if poke_find_data["Egg Group II"] == answer_data["Egg Group II"] else False
         generation = True if poke_find_data["generation"] == answer_data["generation"] else False
-        isEvo = True if poke_find_data["Type I"] == answer_data["Type I"] else False #??????
+
+        evoStatusOne = True if (poke_find_data["Evolve"] != 'N' and poke_find_data["Evolve"] != '') else False
+        evoStatusTwo = True if (answer_data["Evolve"] != 'N' and answer_data["Evolve"] != '') else False
+
+        isEvo = True if (evoStatusOne == evoStatusTwo) else False #??????
         return jsonify({"msg": "Pokemon found successfully", "typeOne" : typeOne, "typeTwo" : typeTwo, "tier": tier, "egOne":egOne, "egTwo": egTwo, "generation" :generation, "isEvo": isEvo})
     
 @app.route("/scoreboard")
