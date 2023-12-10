@@ -1,3 +1,5 @@
+let guesses = 0;
+
 document.addEventListener("DOMContentLoaded", function () {
   var guessForm = document.getElementById("guessForm");
 
@@ -7,7 +9,8 @@ document.addEventListener("DOMContentLoaded", function () {
   guessForm.addEventListener("submit", function (event) {
     event.preventDefault();
 
-    var pokemonGuess = document.getElementById("guessPokemon").value;
+    var pokemonGuess = $('#guessPokemon').val();
+    let correctness;
 
     fetch("compare", {
       method: "POST",
@@ -18,7 +21,15 @@ document.addEventListener("DOMContentLoaded", function () {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+          guesses++;
+          $('#feedback-text').text(data['msg']);
+          correctness = getCorrectness(data);
+          comparisons.addGuess(data, correctness);
+          if(checkWin(correctness)){
+              $('#feedback-text').text("You guessed it!");
+          }
+          $('#guessPokemon').text('')
+          console.log(data);
       })
       .catch((error) => {
         console.error("Error:", error);
