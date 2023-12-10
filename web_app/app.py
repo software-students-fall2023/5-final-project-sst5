@@ -76,27 +76,34 @@ def compare():
     data = request.get_json()
     pokemonGuess = data["name"].capitalize()
 
-    answer_data = poke_find_data = pokemonCollection.find_one({"Pokemon": data["answer"]})
+    answer_data = pokemonCollection.find_one({"Pokemon": data["answer"]})
 
     poke_find_data = pokemonCollection.find_one({"Pokemon": pokemonGuess})
-
-    print(answer_data)
 
     if(poke_find_data is None):
         return jsonify({"msg": "No pokemon with this name was found, please try again"})
     else:
-        typeOne = True if poke_find_data["Type I"] == answer_data["Type I"] else False
-        typeTwo = True if poke_find_data["Type II"] == answer_data["Type II"] else False
-        tier = True if poke_find_data["Tier"] == answer_data["Tier"] else False
-        egOne = True if poke_find_data["Egg Group I"] == answer_data["Egg Group I"] else False
-        egTwo = True if poke_find_data["Egg Group II"] == answer_data["Egg Group II"] else False
-        generation = True if poke_find_data["generation"] == answer_data["generation"] else False
+        isTypeOne = True if poke_find_data["Type I"] == answer_data["Type I"] else False
+        isTypeTwo = True if poke_find_data["Type II"] == answer_data["Type II"] else False
+        isTier = True if poke_find_data["Tier"] == answer_data["Tier"] else False
+        isEgOne = True if poke_find_data["Egg Group I"] == answer_data["Egg Group I"] else False
+        isEgTwo = True if poke_find_data["Egg Group II"] == answer_data["Egg Group II"] else False
+        isGeneration = True if poke_find_data["generation"] == answer_data["generation"] else False
 
-        evoStatusOne = True if (poke_find_data["Evolve"] != 'N' and poke_find_data["Evolve"] != '') else False
-        evoStatusTwo = True if (answer_data["Evolve"] != 'N' and answer_data["Evolve"] != '') else False
+        evoStatusOne = poke_find_data["Evolve"] if (poke_find_data["Evolve"] != 'N' and poke_find_data["Evolve"] != '') else ''
+        evoStatusTwo = answer_data["Evolve"] if (answer_data["Evolve"] != 'N' and answer_data["Evolve"] != '') else ''
 
-        isEvo = True if (evoStatusOne == evoStatusTwo) else False #??????
-        return jsonify({"msg": "Pokemon found successfully", "typeOne" : typeOne, "typeTwo" : typeTwo, "tier": tier, "egOne":egOne, "egTwo": egTwo, "generation" :generation, "isEvo": isEvo})
+        isEvo = True if (evoStatusOne == evoStatusTwo) else False  # ??????
+        evolution = poke_find_data["Evolve"]
+        evolution = '' if evolution == 'N' else evolution
+
+        isPokemon = pokemonGuess == data["answer"]
+        return jsonify({"msg": "Pokemon found successfully", "Pokemon":pokemonGuess, "TypeOne": poke_find_data["Type I"],
+                        "TypeTwo": poke_find_data["Type II"], "Tier": poke_find_data["Tier"],
+                        "EgOne": poke_find_data["Egg Group I"], "EgTwo": poke_find_data["Egg Group II"],
+                        "Generation": poke_find_data["generation"], "Evo": evolution, "isEvo": isEvo,
+                        "isTypeOne": isTypeOne, "isTypeTwo": isTypeTwo, "isTier": isTier, "isEgOne": isEgOne,
+                        "isEgTwo": isEgTwo, "isGeneration": isGeneration, "isPokemon":isPokemon})
     
 @app.route("/scoreboard")
 def scoreboard():
