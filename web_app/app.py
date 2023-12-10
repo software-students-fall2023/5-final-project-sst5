@@ -14,7 +14,7 @@ sys.path.append(project_path)
 
 from db import db
 
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, session, url_for, redirect
 
 current_script_path = os.path.abspath(__file__)
 
@@ -33,6 +33,7 @@ load_dotenv()
 # client = MongoClient(MONGO_URI)
 
 app = Flask(__name__)
+app.secret_key = 'secret_key'
 
 print(db)
 
@@ -43,11 +44,19 @@ pokemonCollection = db["pokemon"]
 def index():
     """Returns index page."""
 
-    return render_template("index.html")
+    message = session.pop('message', None)
+    return render_template('index.html', message=message)
+
+@app.route('/set_username', methods=['POST'])
+def set_username():
+    username = request.form.get('username')
+    session['username'] = username
+    session['message'] = "Username successfully saved! It will be used for the leaderboards"
+    return redirect(url_for('index'))
 
 @app.route("/game")  # Route for /game
 def game():
-    """Returns index page."""
+    """Returns game page."""
 
     total_documents = pokemonCollection.count_documents({})
 
@@ -93,7 +102,13 @@ def compare():
 def scoreboard():
     """Returns scoreboard page."""
 
-    return render_template("scoreboard.html")
+    scoreboard_data = pokemonCollection.find(
+        {"Best guesser": {"$exists": True}, "Lowest guesses": {"$exists": True}},
+        {"_id": 0, "Pokemon": 1, "Best guesser": 1, "lowest guesses": 1}
+    )
+    scoreboard_list = list(scoreboard_data)
+
+    return render_template("scoreboard.html", scoreboard=scoreboard_list)
 
 @app.route("/dictionary")
 def dictionary():
