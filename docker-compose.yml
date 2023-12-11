@@ -3,8 +3,8 @@ version: "3.8"
 services:
   web-app:
     build: ./web_app
-    container_name: guess_that_pokemon
-    image: vitarose/guess_that_pokemon
+    container_name: guess-that-pokemon
+    image: vitarose/guess-that-pokemon
     environment:
       - MONGODB_URI=mongodb://mongo:27017/
       - MONGODB_DATABASE=PokemonDB
