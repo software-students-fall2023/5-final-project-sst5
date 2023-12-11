@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
               if(checkWin(correctness)){
                   $('#feedback-text').text("You guessed it!");
               }
-              $('#guessPokemon').text('')
+              $('#guessPokemon').val('');
           }
           console.log(data);
       })
