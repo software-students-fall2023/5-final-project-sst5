@@ -2,7 +2,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Guess that Pokemon!</title>
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <!--
     <link
             rel="stylesheet"
@@ -26,19 +26,18 @@
   <body>
     <div id="answer" data-answer="{{ answer }}"></div>
     <div class="game">
-      <form id="guessForm">
-        <div class="pokemon-guess">
-          <input
-            type="text"
-            id="guessPokemon"
-            name="guessPokemon"
-            value=""
-            placeholder="Type the name of a Pokemon..."
-          />
-          <br />
-          <input type="submit" value="GUESS" />
-        </div>
-      </form>
+      <div class="pokemon-guess">
+        <form id="guessForm">
+            <input
+              type="text"
+              id="guessPokemon"
+              name="guessPokemon"
+              value=""
+              placeholder="Type the name of a Pokemon..."
+            />
+            <input type="submit" value="GUESS" />
+        </form>
+      </div>
 
       <div class="feedback">
         <h3 id="feedback-text"></h3>
