@@ -21,14 +21,16 @@ document.addEventListener("DOMContentLoaded", function () {
     })
       .then((response) => response.json())
       .then((data) => {
-          guesses++;
           $('#feedback-text').text(data['msg']);
-          correctness = getCorrectness(data);
-          comparisons.addGuess(data, correctness);
-          if(checkWin(correctness)){
-              $('#feedback-text').text("You guessed it!");
+          if(data['Pokemon']){
+              guesses++;
+              correctness = getCorrectness(data);
+              comparisons.addGuess(data, correctness);
+              if(checkWin(correctness)){
+                  $('#feedback-text').text("You guessed it!");
+              }
+              $('#guessPokemon').text('')
           }
-          $('#guessPokemon').text('')
           console.log(data);
       })
       .catch((error) => {
