@@ -28,6 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
               comparisons.addGuess(data, correctness);
               if(checkWin(correctness)){
                   $('#feedback-text').text("You guessed it!");
+                  updateLeaderboard(answer, guesses);
               }
               $('#guessPokemon').text('')
           }
@@ -38,3 +39,23 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   });
 });
+
+function updateLeaderboard(pokemonName, guesses) {
+  fetch("/update_leaderboard", {
+      method: "POST",
+      headers: {
+          "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+          pokemon: pokemonName,
+          guesses: guesses
+      }),
+  })
+  .then((response) => response.json())
+  .then((data) => {
+      console.log("Leaderboard updated:", data);
+  })
+  .catch((error) => {
+      console.error("Error updating leaderboard:", error);
+  });
+}
