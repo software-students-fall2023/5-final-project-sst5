@@ -10,6 +10,9 @@ let compareTable = (function () {
         if (names && names.length > 0) {
             $.each(names, function (index, name) {
                 var s = item[name + ''];
+                if(name === 'TypeTwo' && s === '') s = 'None';
+                if(name === 'EgTwo' && s === '') s = 'None';
+                if(name === 'Evo' && s === '') s = 'Not an Evolution';
                 if(correctness[index] || correctness[index] === false){
                     var c = 'no-correctness'
                     switch (correctness[index]){
@@ -20,7 +23,7 @@ let compareTable = (function () {
                             c = 'right'
                             break;
                     }
-                    row += '<td id=' + c + '>' + c + ':' + '<br>' + s + '</td>';
+                    row += '<td id=' + c + '>' +  s + '</td>';
                 } else {
                     row += '<td>' + s + '</td>';
                 }
