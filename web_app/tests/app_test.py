@@ -3,6 +3,7 @@ import os
 import pytest
 
 from unittest.mock import Mock, patch
+import mongomock
 from web_app.app import app
 
 CURR_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -14,12 +15,15 @@ def client():
     app.config["TESTING"] = True
     with app.test_client() as client:
         yield client
-        
+
+@pytest.fixture
+def mongo():
+    return mongomock.MongoClient()
+  
 def test_index_template(client):
     response = client.get("/")
     assert response.status_code == 200
-    
-    
+       
 def test_game_template(client):
     response = client.get("/game")
     assert response.status_code == 200
@@ -57,7 +61,14 @@ def test_compare_wrong_answer(client):
     json_data = response.get_json()
     assert response.status_code == 200
     assert json_data["msg"] == "Pokemon found successfully"
-    # more checks here
+    assert json_data["isEgOne"] == False
+    assert json_data["isEgTwo"] == False
+    assert json_data["isEvo"] == True
+    assert json_data["isGeneration"] == False
+    assert json_data["isPokemon"] == False
+    assert json_data["isTier"] == True
+    assert json_data["isTypeOne"] == False
+    assert json_data["isTypeTwo"] == False
     
 # test compare correct answer
 def test_compare_correct_answer(client):
@@ -67,6 +78,33 @@ def test_compare_correct_answer(client):
     json_data = response.get_json()
     assert response.status_code == 200
     assert json_data["msg"] == "Pokemon found successfully"
-    # more checks here
+    assert json_data["isEgOne"] == True
+    assert json_data["isEgTwo"] == True
+    assert json_data["isEvo"] == True
+    assert json_data["isGeneration"] == True
+    assert json_data["isPokemon"] == True
+    assert json_data["isTier"] == True
+    assert json_data["isTypeOne"] == True
+    assert json_data["isTypeTwo"] == True
 
-# test update leaderboard
+# test new record
+def test_update_leaderboard_new_entry(client):
+    mocked_mongo = mongomock.MongoClient()
+    with patch("web_app.app.check_if_new_record", return_value=True):
+        response = client.post("/update_leaderboard", json={
+            'pokemon': 'Venipede', 'guesses': 3, 'username': 'new-scorer'
+        })
+        json_data = response.get_json()
+        assert response.status_code == 200
+        assert json_data["success"] == "Leaderboard updated successfully"
+
+# test update record higher score
+def test_update_leaderboard_higher_score(client):
+    mocked_mongo = mongomock.MongoClient()
+    with patch("web_app.app.check_if_new_record", return_value=False):
+        response = client.post("/update_leaderboard", json={
+            'pokemon': 'Venipede', 'guesses': 2, 'username': 'new-scorer'
+        })
+        json_data = response.get_json()
+        assert response.status_code == 200
+        assert json_data["success"] == "Current guess not a record"

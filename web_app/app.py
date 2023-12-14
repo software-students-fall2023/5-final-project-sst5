@@ -76,7 +76,9 @@ def compare():
     data = request.get_json()
     pokemonGuess = data["name"].capitalize()
 
-    answer_data = pokemonCollection.find_one({"Pokemon": data["answer"]})
+    # answer_data = pokemonCollection.find_one({"Pokemon": data["answer"]})
+    answer_data = pokemonCollection.find_one({"Pokemon": "Venipede"})
+    
 
     poke_find_data = pokemonCollection.find_one({"Pokemon": pokemonGuess})
 
@@ -110,24 +112,28 @@ def update_leaderboard():
     data = request.get_json()
     pokemon_name = data["pokemon"]
     guesses = data["guesses"]
-    print(guesses)
+    # print(guesses)
     username = session.get("username")
 
     if not username:
         username = "Anonymous User"
 
-    current_record = pokemonCollection.find_one({"Pokemon": pokemon_name}, {"_id": 0, "Best guesser": 1, "Lowest guesses": 1})
-    if current_record is None or guesses < current_record.get("Lowest guesses", float('inf')):
+    # current_record = find_record(pokemon_name)
+    if check_if_new_record(pokemon_name):
         pokemonCollection.update_one(
             {"Pokemon": pokemon_name},
             {"$set": {"Best guesser": username, "Lowest guesses": guesses}},
             upsert=True
         )
-        print("Success")
+        # print("Success")
         return jsonify({"success": "Leaderboard updated successfully"})
     else:
         return jsonify({"success": "Current guess not a record"})
-    
+  
+def check_if_new_record(pokemon_name):
+    current_record = pokemonCollection.find_one({"Pokemon": pokemon_name}, {"_id": 0, "Best guesser": 1, "Lowest guesses": 1})
+    return current_record is None or guesses < current_record.get("Lowest guesses", float('inf')) 
+  
 @app.route("/scoreboard")
 def scoreboard():
     """Returns scoreboard page."""
