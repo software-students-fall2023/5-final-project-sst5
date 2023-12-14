@@ -76,10 +76,7 @@ def compare():
     data = request.get_json()
     pokemonGuess = data["name"].capitalize()
 
-    # answer_data = pokemonCollection.find_one({"Pokemon": data["answer"]})
-    answer_data = pokemonCollection.find_one({"Pokemon": "Venipede"})
-    
-
+    answer_data = pokemonCollection.find_one({"Pokemon": data["answer"]})
     poke_find_data = pokemonCollection.find_one({"Pokemon": pokemonGuess})
 
     if(poke_find_data is None):
