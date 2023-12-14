@@ -1,5 +1,7 @@
 let compareTable = (function () {
-	var _tableId, _table, _fields, _headers, _defaultText;
+    var _tableId, _table, _header_table,
+        _fields, _headers,
+        _defaultText;
 
 	/** Builds the row with columns from the specified names.*/
 	function _buildCompareRowColumns(names, item, correctness) {
@@ -7,22 +9,22 @@ let compareTable = (function () {
 		if (names && names.length > 0) {
 			$.each(names, function (index, name) {
 				var s = item[name + ""];
-				if (name === "TypeTwo" && s === "") s = "None";
-				if (name === "EgTwo" && s === "") s = "None";
+                if (s === ''){
+                    s = "None"
+                }
 
-				// evolution control
-				if (name === "Evo" && s === "") s = "Not an Evolution";
-				if (name === "Evo" && ss.includes("Lv.")) s = "From Level Up";
-
-				if (correctness[index] || correctness[index] === false) {
+				if (correctness[index] || correctness[index] === 0) {
 					var c = "no-correctness";
 					switch (correctness[index]) {
-						case false:
+						case 0:
 							c = "wrong";
 							break;
-						case true:
+						case 1:
 							c = "right";
 							break;
+                        case 0.5:
+                            c = "partial";
+                            break;
 					}
 
 					row += "<td id=" + c + ">" + s + "</td>";
@@ -36,17 +38,17 @@ let compareTable = (function () {
 	}
 
 	/** Creates headers for the table. */
-	function _setHeaders() {
-		var h = "<tr>";
-		if (_headers && _headers.length > 0) {
-			$.each(_headers, function (index, header) {
-				h += "<td>" + header + "</td>";
-			});
-		}
-		h += "</tr>";
-		if (_table.children("thead").length < 1) _table.prepend("<thead></thead>");
-		_table.children("thead").html(h);
-	}
+    function _setHeaders() {
+        var h = '<tr>';
+        if (_headers && _headers.length > 0) {
+            $.each(_headers, function (index, header) {
+                h += '<th>' + header + '</th>';
+            });
+        }
+        h += '</tr>';
+        if (_header_table.children('thead').length < 1) _header_table.prepend('<thead></thead>');
+        _header_table.children('thead').html(h);
+    }
 
 	/** Set if there are no items guessed yet to compare*/
 	function _setNoItemsInfo() {
@@ -64,16 +66,17 @@ let compareTable = (function () {
 
 	return {
 		/** Configures the dynamic table. */
-		config: function (tableId, fields, headers, defaultText) {
-			_tableId = tableId;
-			_table = $("#" + tableId);
-			_fields = fields;
-			_headers = headers;
-			_defaultText = defaultText;
-			_setHeaders();
-			_setNoItemsInfo();
-			return this;
-		},
+        config: function (tableId, fields, headers, defaultText) {
+            _tableId = tableId;
+            _table = $('#' + tableId);
+            _header_table = $('#' + tableId + '-header');
+            _fields = fields;
+            _headers = headers;
+            _defaultText = defaultText;
+            _setHeaders();
+            _setNoItemsInfo();
+            return this;
+        },
 		/** Loads the specified data to the table body. */
 		addGuess: function (data, correctness) {
 			if (_table.length < 1) return; //not configured.
@@ -93,7 +96,7 @@ let compareTable = (function () {
 function checkWin(correctness) {
 	var win = true;
 	for (var i = 0; i < correctness.length; i++) {
-		if (correctness[i] !== true) win = false;
+		if (correctness[i] !== 1) win = 0;
 	}
 	return win;
 }
@@ -119,4 +122,6 @@ $(document).ready(function (e) {
 		["Pokemon", "Type I", "Type II", "Tier", "Egg Group I", "Egg Group II", "Generation", "Is Evolution"], //set to null for field names instead of custom header names
 		"Guess a Pokemon First!"
 	);
+
+    $('.win').hide();
 });

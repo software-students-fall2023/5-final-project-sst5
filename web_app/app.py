@@ -82,21 +82,32 @@ def compare():
     if(poke_find_data is None):
         return jsonify({"msg": "No pokemon with this name was found, please try again"})
     else:
-        isTypeOne = True if poke_find_data["Type I"] == answer_data["Type I"] else False
-        isTypeTwo = True if poke_find_data["Type II"] == answer_data["Type II"] else False
-        isTier = True if poke_find_data["Tier"] == answer_data["Tier"] else False
-        isEgOne = True if poke_find_data["Egg Group I"] == answer_data["Egg Group I"] else False
-        isEgTwo = True if poke_find_data["Egg Group II"] == answer_data["Egg Group II"] else False
-        isGeneration = True if poke_find_data["generation"] == answer_data["generation"] else False
+        # Check type, gives partial correctness for switching primary and secondary types.
+        isTypeOne = 1 if poke_find_data["Type I"] == answer_data["Type I"] else 0
+        isTypeTwo = 1 if poke_find_data["Type II"] == answer_data["Type II"] else 0
+        isTypeOne = 0.5 if poke_find_data["Type I"] == answer_data["Type II"] else isTypeOne
+        isTypeTwo = 0.5 if poke_find_data["Type II"] == answer_data["Type I"] else isTypeTwo
 
+        isTier = 1 if poke_find_data["Tier"] == answer_data["Tier"] else 0
+
+        # Check egg group, gives partial correctness for switching primary and secondary egg groups.
+        isEgOne = 1 if poke_find_data["Egg Group I"] == answer_data["Egg Group I"] else 0
+        isEgTwo = 1 if poke_find_data["Egg Group II"] == answer_data["Egg Group II"] else 0
+        isEgOne = 0.5 if poke_find_data["Egg Group I"] == answer_data["Egg Group II"] else isEgOne
+        isEgTwo = 0.5 if poke_find_data["Egg Group II"] == answer_data["Egg Group I"] else isEgTwo
+
+        isGeneration = 1 if poke_find_data["generation"] == answer_data["generation"] else 0
+
+        # Checks evolution, treats N and Blank as the same. Treats Lv. evolutions as the same.
         evoStatusOne = poke_find_data["Evolve"] if (poke_find_data["Evolve"] != 'N' and poke_find_data["Evolve"] != '') else ''
         evoStatusTwo = answer_data["Evolve"] if (answer_data["Evolve"] != 'N' and answer_data["Evolve"] != '') else ''
+        evoStatusOne = 'Evolution' if evoStatusOne.split('.')[0] == 'Lv' else evoStatusOne
+        evoStatusTwo = 'Evolution' if evoStatusTwo.split('.')[0] == 'Lv' else evoStatusTwo
 
-        isEvo = True if (evoStatusOne == evoStatusTwo) else False  # ??????
-        evolution = poke_find_data["Evolve"]
-        evolution = '' if evolution == 'N' else evolution
+        isEvo = 1 if (evoStatusOne == evoStatusTwo) else 0  # ??????
+        evolution = evoStatusOne
 
-        isPokemon = pokemonGuess == data["answer"]
+        isPokemon = 1 if (pokemonGuess == data["answer"]) else 0
         return jsonify({"msg": "Pokemon found successfully", "Pokemon":pokemonGuess, "TypeOne": poke_find_data["Type I"],
                         "TypeTwo": poke_find_data["Type II"], "Tier": poke_find_data["Tier"],
                         "EgOne": poke_find_data["Egg Group I"], "EgTwo": poke_find_data["Egg Group II"],

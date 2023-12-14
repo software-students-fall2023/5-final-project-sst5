@@ -71,7 +71,8 @@ input[type="text"] {
 }
 
 input[type="submit"],
-button[type="submit"] {
+button[type="submit"],
+#win-next {
 	padding: 8px 15px;
 	border: 1px solid #007bff;
 	background-color: #007bff;
@@ -79,6 +80,10 @@ button[type="submit"] {
 	border-radius: 20px;
 	cursor: pointer;
 	transition: background-color 0.3s;
+}
+
+#win-next{
+	margin-top: 10px;
 }
 
 #guessPokemon {
@@ -161,6 +166,11 @@ td {
 #right {
 	background-color: #7ce594;
 	border: solid #076200;
+}
+
+#partial {
+	background-color: #f3c667;
+	border: dashed #6e3e00;
 }
 
 .back-button-container button {
