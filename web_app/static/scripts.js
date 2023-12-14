@@ -1,6 +1,6 @@
 let compareTable = (function () {
 
-    var _tableId, _table,
+    var _tableId, _table, _header_table,
         _fields, _headers,
         _defaultText;
 
@@ -39,12 +39,12 @@ let compareTable = (function () {
         var h = '<tr>';
         if (_headers && _headers.length > 0) {
             $.each(_headers, function (index, header) {
-                h += '<td>' + header + '</td>';
+                h += '<th>' + header + '</th>';
             });
         }
         h += '</tr>';
-        if (_table.children('thead').length < 1) _table.prepend('<thead></thead>');
-        _table.children('thead').html(h);
+        if (_header_table.children('thead').length < 1) _header_table.prepend('<thead></thead>');
+        _header_table.children('thead').html(h);
     }
 
     /** Set if there are no items guessed yet to compare*/
@@ -69,6 +69,7 @@ let compareTable = (function () {
         config: function (tableId, fields, headers, defaultText) {
             _tableId = tableId;
             _table = $('#' + tableId);
+            _header_table = $('#' + tableId + '-header');
             _fields = fields;
             _headers = headers;
             _defaultText = defaultText;
