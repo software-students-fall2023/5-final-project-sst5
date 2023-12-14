@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   $('#feedback-text').text("You guessed it!");
                   updateLeaderboard(answer, guesses);
               }
-              $('#guessPokemon').text('')
+              $('#guessPokemon').val('');
           }
           console.log(data);
       })
