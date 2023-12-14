@@ -119,7 +119,7 @@ def update_leaderboard():
         username = "Anonymous User"
 
     # current_record = find_record(pokemon_name)
-    if check_if_new_record(pokemon_name):
+    if check_if_new_record(pokemon_name, guesses):
         pokemonCollection.update_one(
             {"Pokemon": pokemon_name},
             {"$set": {"Best guesser": username, "Lowest guesses": guesses}},
@@ -130,7 +130,7 @@ def update_leaderboard():
     else:
         return jsonify({"success": "Current guess not a record"})
   
-def check_if_new_record(pokemon_name):
+def check_if_new_record(pokemon_name, guesses):
     current_record = pokemonCollection.find_one({"Pokemon": pokemon_name}, {"_id": 0, "Best guesser": 1, "Lowest guesses": 1})
     return current_record is None or guesses < current_record.get("Lowest guesses", float('inf')) 
   

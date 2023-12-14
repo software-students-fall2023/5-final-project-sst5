@@ -4,9 +4,9 @@ import pytest
 
 from unittest.mock import Mock, patch
 import mongomock
-from web_app.app import app
-
 CURR_DIR = os.path.dirname(os.path.abspath(__file__))
+
+from web_app.app import app
 
 
 @pytest.fixture
