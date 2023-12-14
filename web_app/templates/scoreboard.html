@@ -7,24 +7,29 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='pokemon_table.css') }}">
 </head>
 <body>
-    <h1>Scoreboard</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Pokémon</th>
-                <th>Best Guesser</th>
-                <th>Lowest Guesses</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for entry in scoreboard %}
+    <h1 class="title">Scoreboard</h1>
+    <main>
+        <table class="pokemon-table">
+            <thead>
                 <tr>
-                    <td>{{ entry.Pokemon }}</td>
-                    <td>{{ entry['Best guesser'] }}</td>
-                    <td>{{ entry['lowest guesses'] }}</td>
+                    <th>Pokémon</th>
+                    <th>Best Guesser</th>
+                    <th>Lowest Guesses</th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {% for entry in scoreboard %}
+                    <tr>
+                        <td>{{ entry.Pokemon }}</td>
+                        <td>{{ entry['Best guesser'] }}</td>
+                        <td>{{ entry['Lowest guesses'] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="back-button-container">
+            <button onclick="window.location.href='/'">Home</button>
+        </div>
+    </main>
 </body>
 </html>
