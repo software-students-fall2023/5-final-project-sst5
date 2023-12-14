@@ -61,16 +61,35 @@ def test_compare_wrong_answer(client):
     json_data = response.get_json()
     assert response.status_code == 200
     assert json_data["msg"] == "Pokemon found successfully"
-    assert json_data["isEgOne"] == False
-    assert json_data["isEgTwo"] == False
-    assert json_data["isEvo"] == True
-    assert json_data["isGeneration"] == False
-    assert json_data["isPokemon"] == False
-    assert json_data["isTier"] == True
-    assert json_data["isTypeOne"] == False
-    assert json_data["isTypeTwo"] == False
+    assert json_data["isEgOne"] == 0
+    assert json_data["isEgTwo"] == 0
+    assert json_data["isEvo"] == 1
+    assert json_data["isGeneration"] == 0
+    assert json_data["isPokemon"] == 0
+    assert json_data["isTier"] == 1
+    assert json_data["isTypeOne"] == 0
+    assert json_data["isTypeTwo"] == 0
     
 # test compare correct answer
+def test_compare_partial_type(client):
+    response = client.post("/compare", json={
+        'answer': 'Venipede', 'name': 'ekans'
+    })
+    json_data = response.get_json()
+    assert response.status_code == 200
+    assert json_data["msg"] == "Pokemon found successfully"
+    assert json_data["isTypeOne"] == 0.5
+
+def test_compare_partial_egg(client):
+    response = client.post("/compare", json={
+        'answer': 'Seviper', 'name': 'salamence'
+    })
+    json_data = response.get_json()
+    assert response.status_code == 200
+    assert json_data["msg"] == "Pokemon found successfully"
+    assert json_data["isEgOne"] == 0.5
+    assert json_data["isEgTwo"] == 0
+
 def test_compare_correct_answer(client):
     response = client.post("/compare", json={
         'answer': 'Venipede', 'name': 'venipede'
@@ -78,14 +97,14 @@ def test_compare_correct_answer(client):
     json_data = response.get_json()
     assert response.status_code == 200
     assert json_data["msg"] == "Pokemon found successfully"
-    assert json_data["isEgOne"] == True
-    assert json_data["isEgTwo"] == True
-    assert json_data["isEvo"] == True
-    assert json_data["isGeneration"] == True
-    assert json_data["isPokemon"] == True
-    assert json_data["isTier"] == True
-    assert json_data["isTypeOne"] == True
-    assert json_data["isTypeTwo"] == True
+    assert json_data["isEgOne"] == 1
+    assert json_data["isEgTwo"] == 1
+    assert json_data["isEvo"] == 1
+    assert json_data["isGeneration"] == 1
+    assert json_data["isPokemon"] == 1
+    assert json_data["isTier"] == 1
+    assert json_data["isTypeOne"] == 1
+    assert json_data["isTypeTwo"] == 1
 
 # test new record
 def test_update_leaderboard_new_entry(client):
