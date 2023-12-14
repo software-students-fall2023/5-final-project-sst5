@@ -12,15 +12,18 @@
             src="https://code.jquery.com/jquery-3.7.1.slim.js"
             integrity="sha256-UgvvN8vBkgO0luPSUl2s8TIlOSYRoGFAX4jlCIm9Adc="
             crossorigin="anonymous"></script>
-    <!--
     <script
             src="{{ url_for('static', filename='scripts.js') }}"
             ></script>
-            -->
+    <script
+            src="{{ url_for('static', filename='game.js') }}"
+    ></script>
+    <!--
     <script
             src="../static/scripts.js"
             ></script>
     <script src = "../static/game.js"></script>
+    -->
 </head>
 
   <body>
@@ -39,10 +42,16 @@
         </form>
       </div>
 
+        <div class="win">
+            <button onclick="window.location.href='/scoreboard'" id="win-next">NEXT</button>
+        </div>
+
       <div class="feedback">
         <h3 id="feedback-text"></h3>
       </div>
 
+        <table id="pokemon-compare-table-header">
+        </table>
       <div class="pokemon-compare">
         <table id="pokemon-compare-table">
           <tr>

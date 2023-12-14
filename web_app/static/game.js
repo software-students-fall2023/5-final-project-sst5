@@ -29,6 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
               if(checkWin(correctness)){
                   $('#feedback-text').text("You guessed it!");
                   updateLeaderboard(answer, guesses);
+                  $('.win').show();
               }
               $('#guessPokemon').val('');
           }
