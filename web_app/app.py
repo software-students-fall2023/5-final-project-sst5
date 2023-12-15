@@ -6,21 +6,21 @@ import sys
 import requests
 import random
 
-current_script_path = os.path.abspath(__file__)
+# current_script_path = os.path.abspath(__file__)
 
-project_path = os.path.dirname(os.path.dirname(current_script_path))
+# project_path = os.path.dirname(os.path.dirname(current_script_path))
 
-sys.path.append(project_path)
+# sys.path.append(project_path)
 
-from db import db
+# from db import db
 
 from flask import Flask, render_template, request, jsonify, session, url_for, redirect
 
-current_script_path = os.path.abspath(__file__)
+# current_script_path = os.path.abspath(__file__)
 
-project_path = os.path.dirname(os.path.dirname(current_script_path))
+# project_path = os.path.dirname(os.path.dirname(current_script_path))
 
-sys.path.append(project_path)
+# sys.path.append(project_path)
 
 from pymongo import MongoClient  # pylint: disable=wrong-import-position
 from dotenv import load_dotenv  # pylint: disable=wrong-import-position
@@ -35,9 +35,14 @@ load_dotenv()
 app = Flask(__name__)
 app.secret_key = 'secret_key'
 
-print(db)
+# print(db)
 
-pokemonCollection = db["pokemon"]
+# pokemonCollection = db["pokemon"]
+
+client = MongoClient(os.getenv("MONGODB_URI"))
+database = client[os.getenv("MONGODB_DATABASE")]
+pokemonCollection = database[os.getenv("MONGODB_COLLECTION", "pokemon")]
+leaderboardCollection = database["leaderboard"]
 
 
 @app.route("/")  # Route for /
@@ -128,26 +133,27 @@ def update_leaderboard():
 
     # current_record = find_record(pokemon_name)
     if check_if_new_record(pokemon_name, guesses):
-        pokemonCollection.update_one(
+        leaderboardCollection.update_one(
             {"Pokemon": pokemon_name},
             {"$set": {"Best guesser": username, "Lowest guesses": guesses}},
             upsert=True
         )
-        # print("Success")
         return jsonify({"success": "Leaderboard updated successfully"})
     else:
         return jsonify({"success": "Current guess not a record"})
-  
 def check_if_new_record(pokemon_name, guesses):
-    current_record = pokemonCollection.find_one({"Pokemon": pokemon_name}, {"_id": 0, "Best guesser": 1, "Lowest guesses": 1})
-    return current_record is None or guesses < current_record.get("Lowest guesses", float('inf')) 
+    current_record = leaderboardCollection.find_one(
+        {"Pokemon": pokemon_name},
+        {"_id": 0, "Best guesser": 1, "Lowest guesses": 1}
+    )
+    return current_record is None or guesses < current_record.get("Lowest guesses", float('inf'))
   
 @app.route("/scoreboard")
 def scoreboard():
     """Returns scoreboard page."""
 
-    scoreboard_data = pokemonCollection.find(
-        {"Best guesser": {"$exists": True}, "Lowest guesses": {"$exists": True}},
+    scoreboard_data = leaderboardCollection.find(
+        {},
         {"_id": 0, "Pokemon": 1, "Best guesser": 1, "Lowest guesses": 1}
     )
     scoreboard_list = list(scoreboard_data)

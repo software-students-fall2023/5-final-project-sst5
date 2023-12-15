@@ -10,7 +10,4 @@ COPY . /app/web-app
 
 EXPOSE 5000
 
-ENV MONGODB_URI="mongodb://mongo:27017/"
-ENV MONGODB_DATABASE="database1"
-
 CMD ["python", "./app.py"]

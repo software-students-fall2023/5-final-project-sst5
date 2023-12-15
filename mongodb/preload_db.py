@@ -1,15 +1,22 @@
 import pandas as pd
 import os
+import numpy as np
 from pymongo import MongoClient
 
 # Connect to MongoDB
 client = MongoClient(os.getenv("MONGODB_URI"))
 database = client[os.getenv("MONGODB_DATABASE")]
-collection = database[os.getenv("MONGODB_COLLECTION")]
+collection = os.getenv("MONGODB_COLLECTION")
+
+if collection in database.list_collection_names():
+    database[collection].drop()
 
 # Load CSV data into DataFrame
-data = pd.read_csv("/usr/src/app/pokedex.csv") 
+data = pd.read_csv("/usr/src/app/pokedex.csv", dtype=str)
+data = data.replace({np.nan: ''})
 print(data)
+
+collection = database[collection]
 
 # Insert
 try:

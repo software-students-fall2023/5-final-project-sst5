@@ -1,26 +1,26 @@
-version: "3.8"
-
+version: "3"
 services:
-  web-app:
-    build: ./web_app
-    container_name: guess-that-pokemon
-    image: vitarose/guess-that-pokemon
-    environment:
-      - MONGODB_URI=mongodb://mongo:27017/
-      - MONGODB_DATABASE=PokemonDB
-      - MONGODB_COLLECTION=PokemonCollection
-    ports:
-      - "5000:5000"
-    depends_on:
-      - mongodb
-
   mongodb:
     build: ./mongodb
     container_name: mongodb
     ports:
       - "27017:27017"
+    environment:
+      - MONGODB_DATABASE=PokemonDB
+      - MONGODB_COLLECTION=PokemonCollection
     volumes:
-      - dbdata:/data/db
+      - mongodb-data:/data/db
+
+  web_app:
+    build: ./web_app
+    depends_on:
+      - mongodb
+    ports:
+      - "5000:5000"
+    environment:
+      - MONGODB_URI=mongodb://mongodb:27017/
+      - MONGODB_DATABASE=PokemonDB
+      - MONGODB_COLLECTION=PokemonCollection
 
 volumes:
-  dbdata:
+  mongodb-data:
