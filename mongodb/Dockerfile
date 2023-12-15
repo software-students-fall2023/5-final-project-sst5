@@ -10,4 +10,4 @@ COPY preload_db.py /usr/src/app/preload_db.py
 
 EXPOSE 27017
 
-CMD mongod --bind_ip_all & sleep 10 && python3 preload_db.py && tail -f /dev/null
+CMD mongod --bind_ip_all & sleep 5 && python3 preload_db.py && tail -f /dev/null
