@@ -47,8 +47,8 @@ jobs:
 
       - name: Build and Push MongoDB Docker Image
         run: |
-          docker build -f mongodb/Dockerfile -t capks/pokemonMongodb:latest ./mongodb
-          docker push capks/pokemonMongodb:latest
+          docker build -f mongodb/Dockerfile -t capks/pokemonmongodb:latest ./mongodb
+          docker push capks/pokemonmongodb:latest
 
       - name: Add SSH key to known hosts
         run: |
