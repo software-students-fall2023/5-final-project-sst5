@@ -41,7 +41,7 @@ app.secret_key = 'secret_key'
 
 client = MongoClient(os.getenv("MONGODB_URI"))
 database = client[os.getenv("MONGODB_DATABASE")]
-pokemonCollection = database[os.getenv("MONGODB_COLLECTION")]
+pokemonCollection = database[os.getenv("MONGODB_COLLECTION", "pokemon")]
 leaderboardCollection = database["leaderboard"]
 
 
