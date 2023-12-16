@@ -18,17 +18,17 @@ jobs:
 
       - name: Login to Docker Hub
         run: |
-        echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+          echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
 
       - name: Build and Push Web-App Docker Image
         run: |
-        docker build -f web_app/Dockerfile -t capks/guess_that_pokemon:latest ./web_app
-        docker push capks/guess_that_pokemon:latest
+          docker build -f web_app/Dockerfile -t capks/guess_that_pokemon:latest ./web_app
+          docker push capks/guess_that_pokemon:latest
 
       - name: Build and Push MongoDB Docker Image
         run: |
-        docker build -f mongodb/Dockerfile -t capks/pokemonmongodb:latest ./mongodb
-        docker push capks/pokemonmongodb:latest
+          docker build -f mongodb/Dockerfile -t capks/pokemonmongodb:latest ./mongodb
+          docker push capks/pokemonmongodb:latest
 
       - name: Deploy to Digital Ocean
         uses: appleboy/ssh-action@master
