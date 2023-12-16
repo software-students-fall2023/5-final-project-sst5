@@ -1,4 +1,4 @@
-![webapp workflow](https://github.com/software-students-fall2023/5-final-project-sst5/actions/workflows/build.yml/badge.svg)
+![webapp workflow](https://github.com/software-students-fall2023/5-final-project-sst5/actions/workflows/web-app.yml/badge.svg)
 
 # Guess That Pokemon!
 
