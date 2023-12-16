@@ -53,7 +53,7 @@ jobs:
       - name: Add SSH key to known hosts
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.DIGITALOCEAN_DROPLET_IP }} ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEkNAf9n63w3dXq3fNc2GMkzUaWYToiIi4/okNE5atUo" >> ~/.ssh/known_hosts
+          echo "${{ secrets.DIGITALOCEAN_DROPLET_IP }} ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCRoaKo0AfZxnbBMNSrX618iTeuWkX2LX/broR5HHjjLyvGq9yVE12Ii4Q7FZFgvQ60u53d3UM1wKeiiXomd/Z+/T72mKAuQDb4HGkYf5a+R3nL3PRnmB5GtUxAsDEEugWyLD3uGV3FDhJRfEdxzLnpWlwhDqVV8SGXH3d2pJla9nFggi1sUMOKv1+zEtIABdPC0n9ALO6ZJKIm+BotL7UaxDtkInSvrHsFyjcjX4vtCwh1OvYqDwKB3XRBsroVmcN2qQywtz2hTyqbJRI5bY+KUeOYL0Ve4C63vCpT+JeBwAZbffGKJvMHozK54SxSHhNf7ZHTjuYXOTiMsT6tSm0ioDewiZNgAEOcyxL3Vs1CWvfuT0Fyamz9xE/OnsQ3hupun5uzLAczUXTfE2a6bfnyHIpZohCdzQDJq4ykn+rjs7+FKgTJlfAVPH8jEVpJ+QExVlQ+gdo/0JtPjmuPVjS+p86VO8F8sw7LOScxA8bYtjFubPHSxQ16uYZX+5oULdc= root@GuessThatPokemon" >> ~/.ssh/known_hosts
 
       - name: List files in the GitHub Actions workspace
         run: ls -alh $GITHUB_WORKSPACE
@@ -69,4 +69,3 @@ jobs:
             docker-compose pull
             docker-compose down
             docker-compose up -d
-          ssh_args: "-o StrictHostKeyChecking=no"
