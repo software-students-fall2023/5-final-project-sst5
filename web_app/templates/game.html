@@ -38,16 +38,18 @@
               value=""
               placeholder="Type the name of a Pokemon..."
             />
-            <input type="submit" value="GUESS" />
+            <input id="guessPokemonBtn" type="submit" value="GUESS"/>
         </form>
       </div>
 
-        <div class="win">
-            <button onclick="window.location.href='/scoreboard'" id="win-next">NEXT</button>
-        </div>
+      <h3 id="guessNumber">Number of Guesses : 0</h3>
+      
+      <div class="win">
+          <button onclick="window.location.href='/scoreboard'" id="win-next">NEXT</button>
+      </div>
 
       <div class="feedback">
-        <h3 id="feedback-text"></h3>
+        <h4 id="feedback-text"></h4>
       </div>
 
         <table id="pokemon-compare-table-header">
