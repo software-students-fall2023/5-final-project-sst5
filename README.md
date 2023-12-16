@@ -15,4 +15,4 @@ Please go to [http://161.35.110.214:5000](http://161.35.110.214:5000) in any bro
 [Emos](https://github.com/Capksz) \
 [Allyson Chan](https://github.com/tinybitofheaven) \
 [Ryan Zhang](https://github.com/CouriersRyan) \
-[Richard Li](https://github.com/Silver1793) \
+[Richard Li](https://github.com/Silver1793)
