@@ -38,9 +38,9 @@ jobs:
 
       - name: Run tests with pytest
         env:
-          PYTHONPATH: ${{ github.workspace }}/tests
+          PYTHONPATH: ${{ github.workspace }}/web_app/tests
         run: |
-          pytest tests/
+          pytest web_app/tests
           python -m coverage run -m pytest tests/
           run python -m coverage report
       
