@@ -69,3 +69,4 @@ jobs:
             docker-compose pull
             docker-compose down
             docker-compose up -d
+          ssh_args: "-o StrictHostKeyChecking=no"
