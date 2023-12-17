@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0" />
+		<title>Pokémon Dictionary</title>
+		<link
+			rel="stylesheet"
+			href="{{ url_for('static', filename='pokemon_table.css') }}" />
+	</head>
+	<body>
+		<header>
+			<h1 class="title">Pokémon Dictionary</h1>
+		</header>
+		<main>
+			<table class="pokemon-table">
+				<thead>
+					<tr>
+						<th>Pokémon Name</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for name in names %}
+					<tr>
+						<td>{{ name }}</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			<div class="back-button-container">
+				<button onclick="window.location.href='/'">Home</button>
+			</div>
+		</main>
+	</body>
+</html>

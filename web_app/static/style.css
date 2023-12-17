@@ -1,0 +1,205 @@
+body,
+html {
+	height: 100%;
+	margin: auto;
+	background-color: white;
+	display: flex;
+	flex-direction: column;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+header {
+	margin-bottom: 20px;
+}
+
+#main-title {
+	font-size: 2em;
+	color: #333;
+}
+
+.button-container {
+	display: flex;
+	flex-direction: column;
+}
+
+.button-container button {
+	color: white;
+	padding: 10px 20px;
+	margin: 10px;
+	border: none;
+	border-radius: 20px;
+	cursor: pointer;
+	transition: background-color 0.3s;
+}
+
+.play-game {
+	background-color: #ff423b;
+}
+
+.play-game:hover {
+	background-color: #d40000;
+}
+
+.leaderboard {
+	background-color: #00ff2a;
+}
+
+.leaderboard:hover {
+	background-color: #009407;
+}
+
+.list-pokemon {
+	background-color: #27d4ff;
+}
+
+.list-pokemon:hover {
+	background-color: #2824ff;
+}
+
+.success-message {
+	color: green;
+	margin: 10px 0;
+	font-weight: bold;
+}
+
+input[type="text"] {
+	padding: 8px;
+	border: 1px solid #a8a8a8;
+	border-radius: 10px;
+	margin-right: 5px;
+	margin-top: 20px;
+}
+
+input[type="submit"],
+button[type="submit"],
+#win-next {
+	padding: 8px 15px;
+	border: 1px solid #007bff;
+	background-color: #007bff;
+	color: white;
+	border-radius: 20px;
+	cursor: pointer;
+	transition: background-color 0.3s;
+}
+
+input[type="submit"][disabled=""],
+button[type="submit"][disabled=""],
+input[type="submit"][disabled=""]:hover,
+button[type="submit"][disabled=""]:hover {
+	padding: 8px 15px;
+	border: 1px solid #8693a0;
+	background-color: #8693a0;
+	color: white;
+	border-radius: 20px;
+	cursor: pointer;
+	transition: background-color 0.3s;
+}
+
+#win-next {
+	margin-top: 10px;
+}
+
+#guessPokemon {
+	padding: 8px;
+	width: 500px;
+	border: 1px solid #a8a8a8;
+	border-radius: 10px;
+	margin-right: 5px;
+}
+
+input[type="submit"]:hover,
+button[type="submit"]:hover {
+	background-color: #0056b3;
+}
+
+main {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+body {
+	font-family: Arial, Helvetica, sans-serif;
+	text-align: center;
+}
+
+.title {
+	text-align: center;
+}
+
+#pokemon-compare-table {
+	width: 100%;
+	border-spacing: 5px;
+	overflow: scroll;
+	max-height: 600px;
+}
+
+#pokemon-compare-table-header {
+	width: 100%;
+	border-spacing: 5px;
+}
+
+#pokemon-compare-table table,
+td {
+	border: 4px solid;
+	border-radius: 10px;
+	border-spacing: 1px;
+}
+
+#pokemon-compare-table-header th {
+	border-bottom: 3px solid;
+	border-spacing: 1px;
+	width: 70px;
+}
+
+#pokemon-compare-table td {
+	width: 70px;
+	height: 70px;
+	text-align: center;
+}
+
+.pokemon-compare {
+	max-width: 100%;
+	/* max-height: 400px;
+	overflow: scroll;
+	overflow-x: hidden; */
+	/* scroll-behavior: smooth; */
+}
+
+.no-items td {
+	font-size: 1.5em;
+	border: 1px solid #000000;
+	background-color: #9a9a9a;
+	color: white;
+}
+
+#wrong {
+	background-color: #ee6666;
+	border: dashed #600000;
+}
+
+#right {
+	background-color: #7ce594;
+	border: solid #076200;
+}
+
+#partial {
+	background-color: #f3c667;
+	border: dashed #6e3e00;
+}
+
+.back-button-container button {
+	padding: 10px 20px;
+	background-color: #4caf50;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	font-size: 16px;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+	margin-top: 10px;
+}
+
+.back-button-container button:hover {
+	background-color: #367c39;
+}
