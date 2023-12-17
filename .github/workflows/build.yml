@@ -37,10 +37,10 @@ jobs:
           username: root
           key: ${{ secrets.DIGITALOCEAN_SSH_KEY }}
           script: |
-            cd 4-containerized-app-exercise-sst4/
+            cd var/www/myapp
+            docker-compose pull
+            docker-compose down
             docker container prune -f
             docker image prune -f
             docker volume prune -f
-            docker-compose pull
-            docker-compose down
             docker-compose up -d
