@@ -3,6 +3,12 @@
 
 name: Deploy to Digital Ocean
 
+workflow:
+  rules:
+    - if: $CI_COMMIT_TAG
+      when: never
+    - if: $CI_COMMIT_BRANCH == 'master'
+
 on:
   push:
     branches: ["main"]
