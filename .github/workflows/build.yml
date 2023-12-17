@@ -12,7 +12,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
+    if: github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v3
 
@@ -37,14 +37,10 @@ jobs:
           username: root
           key: ${{ secrets.DIGITALOCEAN_SSH_KEY }}
           script: |
-            if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
-              cd 4-containerized-app-exercise-sst4/
-              docker container prune -f
-              docker image prune -f
-              docker volume prune -f
-              docker-compose pull
-              docker-compose down
-              docker-compose up -d
-            else
-              echo "Won't deploy if not on main."
-            fi
+            cd 4-containerized-app-exercise-sst4/
+            docker container prune -f
+            docker image prune -f
+            docker volume prune -f
+            docker-compose pull
+            docker-compose down
+            docker-compose up -d
